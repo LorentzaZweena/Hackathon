@@ -1,0 +1,27 @@
+body { 
+    background: #e9f0f3; 
+    font-family: 'Poppins', sans-serif;
+}
+    .sidebar {
+      min-height: 100vh;
+      background: #cde1e5;
+      padding-top: 20px;
+    }
+    .sidebar a {
+      color: #144b50;
+      font-weight: 500;
+      display: block;
+      padding: 12px 20px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      text-decoration: none;
+    }
+    .sidebar a.active, .sidebar a:hover {
+      background: #0fa4af;
+      color: white;
+    }
+    .card-custom {
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
