@@ -14,8 +14,8 @@
             $row = mysqli_fetch_assoc($result);
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['nim'] = $username;
-            $_SESSION['name'] = $row['name'];
-            header("Location: /Hackathon/index2.php");
+            $_SESSION['nama_mahasiswa'] = $row['nama_mahasiswa'];
+            header("Location: ../index2.php");
             exit();
         } else {
             $error = "NIM atau password salah!";

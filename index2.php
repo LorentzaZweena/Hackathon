@@ -1,10 +1,10 @@
 <?php
   session_start();
   if (!isset($_SESSION['user_id'])) {
-      header('Location: login.php');
+      header('Location: php/login.php');
       exit;
   }
-  $name = $_SESSION['name'] ?? $_SESSION['nim'];
+  $name = $_SESSION['nama_mahasiswa'] ?? $_SESSION['nim'];
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +16,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/dashboardStyle.css">
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css' rel='stylesheet' />
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -39,148 +41,120 @@
       <h3 class="fw-bold mb-4">Dashboard</h3>
 
       <div class="row g-4">
-        <div class="col-lg-6">
-          <div class="card-custom p-4">
-            <div class="d-flex justify-content-between align-items-center">
-              <h5 class="mb-0">Mata kuliah selanjutnya</h5>
-              <a href="" class="text-decoration-none">Lihat jadwal</a>
-            </div>
-
-            <p class="text-muted mb-1">Serie A</p>
-            <p class="fw-semibold mb-0">21:00, 11 November 2020</p>
-
-            <div class="d-flex align-items-center mt-3">
-              <strong class="me-2">Juventus</strong>
-              <span class="px-3">vs</span>
-              <strong>Sassuolo</strong>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="col-lg-6">
-          <div class="card-custom p-4">
-            <h5>Game Statistics</h5>
-            <div class="mt-3">
-              <div class="d-flex justify-content-between">
-                <span>Played</span><span>8</span>
-              </div>
-              <div class="d-flex justify-content-between">
-                <span>Victories</span>
-                <span>6</span>
-              </div>
-              <div class="d-flex justify-content-between">
-                <span>Draws</span>
-                <span>1</span>
-              </div>
-              <div class="d-flex justify-content-between">
-                <span>Lost</span>
-                <span>1</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        
         <div class="col-lg-7">
           <div class="card-custom p-4">
-            <h5>Standings</h5>
-            <table class="table mt-3">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Team</th>
-                  <th>MP</th>
-                  <th>W</th>
-                  <th>D</th>
-                  <th>L</th>
-                  <th>Pts</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Juventus</td>
-                  <td>8</td>
-                  <td>6</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>19</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Atalanta</td>
-                  <td>8</td>
-                  <td>5</td>
-                  <td>1</td>
-                  <td>2</td>
-                  <td>16</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Inter</td>
-                  <td>8</td>
-                  <td>5</td>
-                  <td>0</td>
-                  <td>3</td>
-                  <td>15</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Napoli</td>
-                  <td>8</td>
-                  <td>4</td>
-                  <td>1</td>
-                  <td>3</td>
-                  <td>13</td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>Milan</td>
-                  <td>8</td>
-                  <td>4</td>
-                  <td>1</td>
-                  <td>3</td>
-                  <td>13</td>
-                </tr>
-              </tbody>
-            </table>
+            <h5>Kalender Akademik</h5>
+            <div id="calendar"></div>
           </div>
         </div>
-
         <div class="col-lg-5">
-          <div class="row g-3">
-            <div class="col-12 col-sm-6">
-              <div class="card-custom p-3 text-center">
-                <h6>Possession</h6>
-                <h3>65%</h3>
+          <div class="card-custom p-4 mb-4">
+            <h5 class="mb-3">Statistik Singkat</h5>
+
+            <div class="d-flex justify-content-between mb-3">
+              <div>
+                <small>Total Mata Kuliah Hari Ini</small>
+                <h4 class="fw-bold text-primary m-0">3</h4>
+              </div>
+              <div class="text-end">
+                <small>Tugas Deadline</small>
+                <h4 class="fw-bold text-warning m-0">1</h4>
               </div>
             </div>
-            <div class="col-12 col-sm-6">
-              <div class="card-custom p-3 text-center">
-                <h6>Overall Price</h6>
-                <h3>$690.2m</h3>
+
+            <hr>
+
+            <div class="d-flex justify-content-between">
+              <div>
+                <small>Persentase Absensi</small>
+                <h4 class="fw-bold text-success m-0">92%</h4>
               </div>
-            </div>
-            <div class="col-12 col-sm-6">
-              <div class="card-custom p-3 text-center">
-                <h6>Transfer Budget</h6>
-                <h3>$240.6m</h3>
-              </div>
-            </div>
-            <div class="col-12 col-sm-6">
-              <div class="card-custom p-3 text-center">
-                <h6>Average Score</h6>
-                <h3>7.2</h3>
+              <div class="text-end">
+                <small>Semester</small>
+                <h4 class="fw-bold text-info m-0">Ganjil</h4>
               </div>
             </div>
           </div>
-        </div>
 
+          <div class="card-custom p-0 overflow-hidden">
+            <div class="p-4 pb-2">
+              <h5 class="mb-3">Berita Kampus</h5>
+            </div>
+
+            <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+
+                <div class="carousel-item active">
+                  <img src="./img/mahasiswa.jpg" class="d-block w-100" style="height: 150px; object-fit: cover;">
+                  <div class="p-4">
+                    <h5 class="fw-bold">Dies Natalis PNJ ke-40</h5>
+                    <small class="text-muted">12 November 2024</small>
+                    <p class="mt-2">
+                      PNJ merayakan Dies Natalis ke-40 dengan seminar nasional, expo teknologi,
+                      dan pertunjukan seni dari mahasiswa.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="carousel-item">
+                  <img src="./img/pkm.jpg" class="d-block w-100" style="height: 180px; object-fit: cover;">
+                  <div class="p-4">
+                    <h5 class="fw-bold">Pendaftaran PKM 2024 Dibuka</h5>
+                    <small class="text-muted">5 November 2024</small>
+                    <p class="mt-2">
+                      Kemendikbud membuka pendaftaran Program Kreativitas Mahasiswa.
+                      Ayo siapkan proposal terbaikmu!
+                    </p>
+                  </div>
+                </div>
+
+                <div class="carousel-item">
+                  <img src="./img/uiux.jpg" class="d-block w-100" style="height: 180px; object-fit: cover;">
+                  <div class="p-4">
+                    <h5 class="fw-bold">Workshop UI/UX PNJ</h5>
+                    <small class="text-muted">29 Oktober 2024</small>
+                    <p class="mt-2">
+                      Jurusan TIK mengadakan workshop UI/UX dengan pembicara dari industri.
+                      Gratis untuk mahasiswa PNJ.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        
       </div>
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      height: 500,
+      events: [
+        { title: 'Mulai Perkuliahan', start: '2024-11-05' },
+        { title: 'UTS', start: '2024-11-20', end: '2024-11-24' }
+      ]
+    });
+
+    calendar.render();
+  });
+</script>
+
 </body>
 </html>

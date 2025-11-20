@@ -27,5 +27,12 @@ body {
     }
 
     .text-primaryPNJ {
-    color : #018797;
+      color : #018797;
+    }
+
+    .fc-event {
+  text-decoration: none !important;
 }
+
+
+
