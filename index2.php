@@ -41,15 +41,21 @@
       <div class="row g-4">
         <div class="col-lg-6">
           <div class="card-custom p-4">
-            <h5>Next Game</h5>
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">Mata kuliah selanjutnya</h5>
+              <a href="" class="text-decoration-none">Lihat jadwal</a>
+            </div>
+
             <p class="text-muted mb-1">Serie A</p>
             <p class="fw-semibold mb-0">21:00, 11 November 2020</p>
+
             <div class="d-flex align-items-center mt-3">
               <strong class="me-2">Juventus</strong>
               <span class="px-3">vs</span>
               <strong>Sassuolo</strong>
             </div>
           </div>
+
         </div>
 
         <div class="col-lg-6">
