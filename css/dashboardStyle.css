@@ -1,7 +1,7 @@
-body { 
-    background: #e9f0f3; 
-    font-family: 'Poppins', sans-serif;
-}
+    body { 
+        background: #e9f0f3; 
+        font-family: 'Poppins', sans-serif;
+    }
     .sidebar {
       min-height: 100vh;
       background: #cde1e5;
@@ -31,8 +31,19 @@ body {
     }
 
     .fc-event {
-  text-decoration: none !important;
-}
+      text-decoration: none !important;
+    }
+
+    .tablePNJ th {
+        background-color: #018797 !important;
+        color: white;
+    }
+
+    .bgPNJ {
+        background-color: #018797 !important;
+    }
+
+
 
 
 
