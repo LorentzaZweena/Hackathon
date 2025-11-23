@@ -8,35 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 $name = $_SESSION['nama_mahasiswa'] ?? $_SESSION['nim'];
 $user_id = $_SESSION['user_id'];
 $jadwal = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_id");
-
-$statsQuery = $conn->query("SELECT * FROM tbl_statistik WHERE user_id = $user_id");
-$stats = $statsQuery->fetch_assoc();
-
-if (!$stats) {
-    $stats = [
-        'total_matkul_hari_ini' => 0,
-        'tugas_deadline' => 0,
-        'persentase_absensi' => 0,
-        'semester' => 'Tidak ada'
-    ];
-}
-
-$events = [];
-$result = $conn->query("SELECT id, judul, mulai, akhir, warna FROM kalender");
-
-while ($row = $result->fetch_assoc()) {
-    $startDate = date('Y-m-d', strtotime($row['mulai']));
-    $endDate = date('Y-m-d', strtotime($row['akhir']));
-    if ($startDate && $endDate) {
-        $events[] = [
-            'id' => $row['id'],
-            'title' => $row['judul'],
-            'start' => $startDate,
-            'end'   => $endDate,
-            'color' => $row['warna']
-        ];
-    }
-}
+$matkul = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_id LIMIT 3");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,92 +46,96 @@ while ($row = $result->fetch_assoc()) {
     </div>
 
     <div class="col-12 col-md-9 col-lg-10 p-4">
-      <br>
-      <h2>Selamat datang, <?= htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?> 👋</h2>
-      <h3 class="fw-bold mb-4">Dashboard</h3>
 
-      <div class="row g-4">
-        <div class="col-lg-7">
-          <div class="card-custom p-4">
-            <h5>Kalender Akademik</h5>
-            <div id="calendar"></div>
-          </div>
+    <h2>Selamat datang, <?= htmlspecialchars($name) ?> 👋</h2>
+    <h3 class="fw-bold mb-4">Materi hari ini</h3>
+
+    <div class="row g-4 mb-4">
+        <?php while($m = $matkul->fetch_assoc()): ?>
+        <div class="col-lg-4">
+            <div class="card-custom p-3 d-flex align-items-center">
+                <img src="<?= htmlspecialchars($m['gambar']) ?>" width="55" height="55" class="rounded-circle me-3" style="object-fit: cover;">
+                <div>
+                    <h5 class="fw-bold mb-1"><?= htmlspecialchars($m['nama_matkul']) ?></h5>
+                    <small class="text-muted">
+                        <?= htmlspecialchars($m['nama_dosen']) ?>
+                    </small>
+                </div>
+
+            </div>
         </div>
+        <?php endwhile; ?>
+    </div>
 
-        <div class="col-lg-5">
-          <div class="card-custom p-4 mb-4">
-            <h5 class="mb-3">Statistik Singkat</h5>
 
-            <div class="d-flex justify-content-between mb-3">
-              <div>
-                <small>Total Mata Kuliah Hari Ini</small>
-                <h4 class="fw-bold text-primary m-0">
-                  <?= $stats['total_matkul_hari_ini'] ?>
-                </h4>
-              </div>
-              <div class="text-end">
-                <small>Tugas Deadline</small>
-                <h4 class="fw-bold text-warning m-0">
-                  <?= $stats['tugas_deadline'] ?>
-                </h4>
-              </div>
+    <div class="card-custom p-4 mb-4">
+        <h5 class="mb-3">Daftar Absensi Hari Ini</h5>
+
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Nama Dosen</th>
+                    <th>Jam</th>
+                    <th>Ruang</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $no=1; while($row = $jadwal->fetch_assoc()): ?>
+                <tr>
+                    <td><?= $no++ ?></td>
+                    <td><?= htmlspecialchars($row['nama_dosen']) ?></td>
+                    <td><?= date("H.i", strtotime($row['jam_mulai'])) . " - " . date("H.i", strtotime($row['jam_selesai'])) ?></td>
+                    <td><?= htmlspecialchars($row['ruang']) ?></td>
+                    <td>
+                        <button class="btn btn-success btn-sm">
+                            Hadir
+                        </button>
+                    </td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card-custom p-4 h-100">
+                <h5 class="mb-3">Grafik Nilai</h5>
+                <div style="height: 280px; background: #eef2ff; border-radius: 12px;"
+                     class="d-flex justify-content-center align-items-center text-muted">
+                    (Grafik nanti ditaruh di sini)
+                </div>
             </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card-custom p-4 h-90">
+              <h5 class="mb-3">Dosen Yang Mengajar Hari Ini</h5>
 
-            <hr>
+              <?php 
+              $dosens = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_id LIMIT 3"); 
+              while($d = $dosens->fetch_assoc()):
+              ?>
+              <div class="d-flex align-items-center mb-3">
+                  <img src="<?= htmlspecialchars($d['gambar'] ?: '../img/default.jpg') ?>" 
+                      width="50" height="50" class="me-3 rounded-circle" style="object-fit: cover;">
+                  <div>
+                      <strong><?= htmlspecialchars($d['nama_dosen']) ?></strong><br>
+                      <small class="text-muted"><?= htmlspecialchars($d['nama_matkul']) ?></small>
+                  </div>
+                  <a href="https://wa.me/6281234567890" target="_blank" class="btn btn-primary btn-sm ms-auto"><i class="bi bi-whatsapp me-1"></i> Chat</a>
 
-            <div class="d-flex justify-content-between">
-              <div>
-                <small>Persentase Absensi</small>
-                <h4 class="fw-bold text-success m-0">
-                  <?= $stats['persentase_absensi'] ?>%
-                </h4>
               </div>
-              <div class="text-end">
-                <small>Semester</small>
-                <h4 class="fw-bold text-info m-0">
-                  <?= htmlspecialchars($stats['semester']) ?>
-                </h4>
-              </div>
-            </div>
+              <?php endwhile; ?>
           </div>
 
-          <div class="card-custom p-4 mb-4">
-    <h5 class="mb-3">Jadwal Mata Kuliah Hari Ini</h5>
+        </div>
+    </div>
 
-    <table class="table table-hover align-middle">
-        <thead class="table-light">
-            <tr>
-                <th>Gambar</th>
-                <th>Matkul</th>
-                <th>Dosen</th>
-                <th>Jam</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php while($row = $jadwal->fetch_assoc()): ?>
-            <tr>
-                <td>
-                    <img src="<?= $row['gambar'] ?>" width="60" height="40" style="object-fit: cover; border-radius: 6px;">
-                </td>
-                <td><?= htmlspecialchars($row['nama_matkul']) ?></td>
-                <td><?= htmlspecialchars($row['nama_dosen']) ?></td>
-                <td><?= date("H:i", strtotime($row['jam_mulai'])) ?></td>
-                <td>
-                    <?php
-                    $status = $row['status_kehadiran'];
-                    $badge = "secondary";
-                    if ($status == "Hadir") $badge = "success";
-                    else if ($status == "Tidak Hadir") $badge = "danger";
-                    ?>
-                    <span class="badge bg-<?= $badge ?>"><?= $status ?></span>
-                </td>
-            </tr>
-        <?php endwhile; ?>
-        </tbody>
-    </table>
 </div>
 
+</div>
 
         </div>
       </div>
