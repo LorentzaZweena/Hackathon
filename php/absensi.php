@@ -1,14 +1,22 @@
 <?php
-include 'config.php';
-session_start();
-if (!isset($_SESSION['user_id'])) {
-    header('Location: php/login.php');
-    exit;
-}
-$name = $_SESSION['nama_mahasiswa'] ?? $_SESSION['nim'];
-$user_id = $_SESSION['user_id'];
-$jadwal = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_id");
-$matkul = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_id LIMIT 3");
+    include 'config.php';
+    session_start();
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: php/login.php');
+        exit;
+    }
+    $name = $_SESSION['nama_mahasiswa'] ?? $_SESSION['nim'];
+    $user_id = $_SESSION['user_id'];
+    $jadwal = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_id");
+    $matkul = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_id LIMIT 3");
+    $nilaiQuery = $conn->query("SELECT nama_matkul, nilai FROM tbl_nilai WHERE user_id = $user_id");
+    $labels = [];
+    $values = [];
+
+    while($row = $nilaiQuery->fetch_assoc()) {
+        $labels[] = $row['nama_matkul'];
+        $values[] = (float)$row['nilai'];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +29,7 @@ $matkul = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_
   <link rel="stylesheet" href="../css/dashboardStyle.css">
   <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css' rel='stylesheet' />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -34,8 +42,8 @@ $matkul = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_
 
       <a href="index2.php"><i class="bi bi-house-door me-2"></i> Beranda</a>
       <a href="#" class="active"><i class="bi bi-clipboard-check me-2"></i> Absensi</a>
-      <a href="#"><i class="bi bi-megaphone me-2"></i> Pengumuman</a>
-      <a href="#"><i class="bi bi-calendar-week me-2"></i> Jadwal Kelas</a>
+      <a href="pengumuman.php"><i class="bi bi-megaphone me-2"></i> Pengumuman</a>
+      <a href="jadwalKelas.php"><i class="bi bi-calendar-week me-2"></i> Jadwal Kelas</a>
       <a href="#"><i class="bi bi-activity me-2"></i> Event Kampus</a>
       <a href="#"><i class="bi bi-headset me-2"></i> Layanan Mahasiswa</a>
 
@@ -56,7 +64,7 @@ $matkul = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_
             <div class="card-custom p-3 d-flex align-items-center">
                 <img src="<?= htmlspecialchars($m['gambar']) ?>" width="55" height="55" class="rounded-circle me-3" style="object-fit: cover;">
                 <div>
-                    <h5 class="fw-bold mb-1"><?= htmlspecialchars($m['nama_matkul']) ?></h5>
+                    <h5 class="fw-bold mb-1"><a href="https://repository.bsi.ac.id/repo/files/381149/download/MODUL%20WEB%201.pdf" class="text-decoration-none text-black" target="_blank"><?= htmlspecialchars($m['nama_matkul']) ?></a></h5>
                     <small class="text-muted">
                         <?= htmlspecialchars($m['nama_dosen']) ?>
                     </small>
@@ -89,9 +97,7 @@ $matkul = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_
                     <td><?= date("H.i", strtotime($row['jam_mulai'])) . " - " . date("H.i", strtotime($row['jam_selesai'])) ?></td>
                     <td><?= htmlspecialchars($row['ruang']) ?></td>
                     <td>
-                        <button class="btn btn-success btn-sm">
-                            Hadir
-                        </button>
+                        <button class="btn btn-success btn-sm hadirBtn" data-id="<?= $row['id']; ?>"> Hadir </button>
                     </td>
                 </tr>
                 <?php endwhile; ?>
@@ -103,10 +109,7 @@ $matkul = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_
         <div class="col-lg-8">
             <div class="card-custom p-4 h-100">
                 <h5 class="mb-3">Grafik Nilai</h5>
-                <div style="height: 280px; background: #eef2ff; border-radius: 12px;"
-                     class="d-flex justify-content-center align-items-center text-muted">
-                    (Grafik nanti ditaruh di sini)
-                </div>
+                <canvas id="grafikNilai" style="height: 100px; background: #eef2ff; border-radius: 12px;"></canvas>
             </div>
         </div>
         <div class="col-lg-4">
@@ -124,7 +127,7 @@ $matkul = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_
                       <strong><?= htmlspecialchars($d['nama_dosen']) ?></strong><br>
                       <small class="text-muted"><?= htmlspecialchars($d['nama_matkul']) ?></small>
                   </div>
-                  <a href="https://wa.me/6281234567890" target="_blank" class="btn btn-primary btn-sm ms-auto"><i class="bi bi-whatsapp me-1"></i> Chat</a>
+                  <a href="https://wa.me/6289526303760" target="_blank" class="btn btn-primary btn-sm ms-auto"><i class="bi bi-whatsapp me-1"></i> Chat</a>
 
               </div>
               <?php endwhile; ?>
@@ -136,28 +139,76 @@ $matkul = $conn->query("SELECT * FROM tbl_jadwal_hari_ini WHERE user_id = $user_
 </div>
 
 </div>
-
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var eventsData = <?php echo json_encode($events); ?>;
+    const ctx = document.getElementById('grafikNilai').getContext('2d');
+    const data = {
+    labels: <?php echo json_encode($labels); ?>,
+    datasets: [{
+        label: 'Nilai Mata Kuliah',
+        data: <?php echo json_encode($values); ?>,
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)'
+        ],
+        borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)'
+        ],
+        borderWidth: 1
+    }]
+};
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            responsive: true,
+            scales: {
+                y: {  
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    };
+    
+    new Chart(ctx, config);
+</script>
+<script>
+document.querySelectorAll('.hadirBtn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        let jadwal_id = this.getAttribute('data-id');
+        let button = this;
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        height: 500,
-        events: eventsData,
+        fetch("fungsiAbsensi.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "jadwal_id=" + jadwal_id
+        })
+        .then(res => res.text())
+        .then(res => {
+            if (res.includes("success")) {
+                button.classList.remove("btn-success");
+                button.classList.add("btn-secondary");
+                button.innerText = "Hadir ✔";
+                button.disabled = true;
+            } else {
+                alert("Gagal absen! Server said: " + res);
+            }
+        });
     });
-
-    calendar.render();
 });
 </script>
 

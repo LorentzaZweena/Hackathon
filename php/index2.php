@@ -62,8 +62,8 @@ while ($row = $result->fetch_assoc()) {
 
       <a class="active" href="#"><i class="bi bi-house-door me-2"></i> Beranda</a>
       <a href="absensi.php"><i class="bi bi-clipboard-check me-2"></i> Absensi</a>
-      <a href="#"><i class="bi bi-megaphone me-2"></i> Pengumuman</a>
-      <a href="#"><i class="bi bi-calendar-week me-2"></i> Jadwal Kelas</a>
+      <a href="pengumuman.php"><i class="bi bi-megaphone me-2"></i> Pengumuman</a>
+      <a href="jadwalKelas.php"><i class="bi bi-calendar-week me-2"></i> Jadwal Kelas</a>
       <a href="#"><i class="bi bi-activity me-2"></i> Event Kampus</a>
       <a href="#"><i class="bi bi-headset me-2"></i> Layanan Mahasiswa</a>
 
