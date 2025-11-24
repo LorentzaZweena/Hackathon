@@ -34,7 +34,7 @@ $events = $conn->query("SELECT * FROM tbl_event ORDER BY date_event DESC");
       <a href="pengumuman.php"><i class="bi bi-megaphone me-2"></i> Pengumuman</a>
       <a href="jadwalKelas.php"><i class="bi bi-calendar-week me-2"></i> Jadwal Kelas</a>
       <a href="#" class="active"><i class="bi bi-activity me-2"></i> Event Kampus</a>
-      <a href="#"><i class="bi bi-headset me-2"></i> Layanan Mahasiswa</a>
+      <a href="layananMahasiswa.php"><i class="bi bi-headset me-2"></i> Layanan Mahasiswa</a>
       <hr>
       <a href="#"><i class="bi bi-person-circle me-2"></i> Profil</a>
       <a href="#"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>

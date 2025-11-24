@@ -47,7 +47,7 @@
       <a href="pengumuman.php"><i class="bi bi-megaphone me-2"></i> Pengumuman</a>
       <a href="#" class="active"><i class="bi bi-calendar-week me-2"></i> Jadwal Kelas</a>
       <a href="eventKampus.php"><i class="bi bi-activity me-2"></i> Event Kampus</a>
-      <a href="#"><i class="bi bi-headset me-2"></i> Layanan Mahasiswa</a>
+      <a href="layananMahasiswa.php"><i class="bi bi-headset me-2"></i> Layanan Mahasiswa</a>
 
       <hr />
 
