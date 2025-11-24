@@ -68,6 +68,31 @@
     border-radius: 8px !important;
 }
 
+@media (min-width: 768px) {
+  #sidebarOffcanvas {
+      display: block !important;
+      transform: none !important;
+      visibility: visible !important;
+      width: 240px;           
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      border-right: 1px solid #d5d5d5;
+      z-index: 1000;
+  }
+
+  .main-content {
+      margin-left: 240px;   
+  }
+}
+
+.sidebar {
+    background: #cde1e5;
+    padding-top: 20px;
+}
+
+
 
 
 

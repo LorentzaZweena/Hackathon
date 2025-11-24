@@ -25,12 +25,45 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/dashboardStyle.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    @media (max-width: 767px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        height: 100vh;
+        z-index: 1001;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+      }
+      .sidebar.sidebar-open {
+        transform: translateX(0);
+      }
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: none;
+      }
+      .overlay.show {
+        display: block;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <div class="container-fluid">
+  <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
+
   <div class="row">
-    <div class="col-12 col-md-3 col-lg-2 sidebar">
+    <div class="col-12 col-md-3 col-lg-2 sidebar d-md-block" id="sidebar">
       <h4 class="text-center mb-4">
         <img src="../img/logoPNJ.png" alt="" width="25%" class="me-3">E-PNJ
       </h4>
@@ -42,10 +75,14 @@
       <a href="#" class="active"><i class="bi bi-headset me-2"></i> Layanan Mahasiswa</a>
       <hr>
       <a href="#"><i class="bi bi-person-circle me-2"></i> Profil</a>
-      <a href="#"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>
+      <a href="logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>
     </div>
 
     <div class="col-12 col-md-9 col-lg-10 p-4">
+      <button class="btn btn-primary d-md-none mb-3" type="button" onclick="toggleSidebar()">
+        <i class="bi bi-list"></i> Menu
+      </button>
+
     <h2>Selamat datang, <?= htmlspecialchars($name) ?> 👋</h2>
     <h2 class="fw-bold mb-3">Layanan Mahasiswa</h2>
 
@@ -154,5 +191,19 @@
   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function toggleSidebar() {
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('overlay');
+    sidebar.classList.add('sidebar-open');
+    overlay.classList.add('show');
+}
+function closeSidebar() {
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('overlay');
+    sidebar.classList.remove('sidebar-open');
+    overlay.classList.remove('show');
+}
+</script>
 </body>
 </html>
