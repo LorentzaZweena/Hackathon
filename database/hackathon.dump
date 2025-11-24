@@ -1,0 +1,387 @@
+-- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: hackathon
+-- ------------------------------------------------------
+-- Server version	8.0.30
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `kalender`
+--
+
+DROP TABLE IF EXISTS `kalender`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `kalender` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `judul` varchar(255) NOT NULL,
+  `mulai` date NOT NULL,
+  `akhir` date DEFAULT NULL,
+  `deskripsi` text,
+  `warna` varchar(20) DEFAULT '#007bff',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kalender`
+--
+
+LOCK TABLES `kalender` WRITE;
+/*!40000 ALTER TABLE `kalender` DISABLE KEYS */;
+INSERT INTO `kalender` VALUES (1,'Mulai Perkuliahan','2025-11-05','2025-11-20','Awal semester baru PNJ','#0d6efd'),(2,'UTS','2025-11-20','2025-11-30','Ujian Tengah Semester','#ffc107'),(3,'Libur Nasional','2025-12-19','2025-12-29','Hari Raya Idul Fitri','#dc3545');
+/*!40000 ALTER TABLE `kalender` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_absensi`
+--
+
+DROP TABLE IF EXISTS `tbl_absensi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_absensi` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `jadwal_id` int NOT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'tidak hadir',
+  `waktu_absen` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_absen` (`user_id`,`jadwal_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_absensi`
+--
+
+LOCK TABLES `tbl_absensi` WRITE;
+/*!40000 ALTER TABLE `tbl_absensi` DISABLE KEYS */;
+INSERT INTO `tbl_absensi` VALUES (2,1,1,'Hadir','2025-11-23 15:12:46'),(3,1,2,'Hadir','2025-11-23 15:12:49'),(4,1,3,'Hadir','2025-11-23 15:12:50');
+/*!40000 ALTER TABLE `tbl_absensi` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_event`
+--
+
+DROP TABLE IF EXISTS `tbl_event`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_event` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `subtitle` varchar(255) DEFAULT NULL,
+  `description` text,
+  `category` varchar(100) DEFAULT NULL,
+  `tag` varchar(50) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `date_event` date DEFAULT NULL,
+  `time_event` time DEFAULT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
+  `icon` varchar(50) DEFAULT 'bi-calendar',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_event`
+--
+
+LOCK TABLES `tbl_event` WRITE;
+/*!40000 ALTER TABLE `tbl_event` DISABLE KEYS */;
+INSERT INTO `tbl_event` VALUES (1,'Workshop Web Development','Gratis untuk Mahasiswa','Belajar membuat website dari dasar hingga deployment.','Workshop','Web','Lab Komputer 1','2025-12-05','10:00:00','../img/event1.jpg','bi-laptop','2025-11-23 13:25:20'),(2,'Seminar AI & Machine Learning',NULL,'Seminar mengenai perkembangan AI dan implementasinya.','Seminar','AI','Auditorium A','2025-12-10','13:00:00','../img/event2.jpg','bi-robot','2025-11-23 13:25:20'),(3,'Pelatihan Soft Skills','Meningkatkan kemampuan komunikasi','Pelatihan soft skills untuk mahasiswa.','Training','Soft Skills','Ruang Seminar 2','2025-12-12','09:00:00','../img/event3.jpg','bi-people','2025-11-23 13:25:20'),(4,'Webinar Cybersecurity',NULL,'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat','Webinar','Security','Online','2025-12-15','14:00:00','../img/event4.jpg','bi-shield-lock','2025-11-23 13:25:20'),(5,'Festival Inovasi Kampus','Pameran karya mahasiswa','Event tahunan menampilkan inovasi dan karya mahasiswa.','Festival','Inovasi','Lapangan Kampus','2025-12-20','08:00:00','../img/event5.jpg','bi-lightning','2025-11-23 13:25:20'),(6,'Workshop Coding Cepat','Belajar PHP & MySQL dalam 1 Hari','Event ini akan membahas dasar-dasar PHP & MySQL untuk membangun aplikasi web.','Workshop','Coding','Lab Komputer PNJ','2025-12-05','09:00:00','../img/event-coding.jpg','bi-laptop','2025-11-23 13:33:16');
+/*!40000 ALTER TABLE `tbl_event` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_faq`
+--
+
+DROP TABLE IF EXISTS `tbl_faq`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_faq` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `pertanyaan` varchar(255) DEFAULT NULL,
+  `jawaban` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_faq`
+--
+
+LOCK TABLES `tbl_faq` WRITE;
+/*!40000 ALTER TABLE `tbl_faq` DISABLE KEYS */;
+INSERT INTO `tbl_faq` VALUES (1,'Bagaimana cara mengajukan layanan?','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),(2,'Berapa lama proses layanan?','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'),(3,'Bagaimana cara melihat status permintaan saya?','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.');
+/*!40000 ALTER TABLE `tbl_faq` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_jadwal`
+--
+
+DROP TABLE IF EXISTS `tbl_jadwal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_jadwal` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tanggal` date NOT NULL,
+  `mata_kuliah` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `waktu_mulai` time NOT NULL,
+  `waktu_selesai` time NOT NULL,
+  `nama_dosen` varchar(100) NOT NULL,
+  `PJ` varchar(50) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_jadwal`
+--
+
+LOCK TABLES `tbl_jadwal` WRITE;
+/*!40000 ALTER TABLE `tbl_jadwal` DISABLE KEYS */;
+INSERT INTO `tbl_jadwal` VALUES (1,'2024-03-04','Pemrograman Web','08:00:00','10:00:00','Dr. Rahmat Hidayat','Asep Nugraha','2025-11-23 12:40:02'),(2,'2024-03-04','Pemrograman Web','10:30:00','12:00:00','Siti Aminah, M.Kom','Putri Amelia','2025-11-23 12:40:02'),(3,'2024-03-05','Basis Data','09:00:00','11:00:00','Budi Santoso, M.T','Rian Saputra','2025-11-23 12:40:02'),(4,'2024-03-05','Basis Data','13:00:00','15:00:00','Dr. Maya Purnama','Dewi Kartika','2025-11-23 12:40:02'),(5,'2024-03-06','Jaringan Komputer','08:00:00','10:00:00','Ir. Andi Prasetyo','Fajar Maulana','2025-11-23 12:40:02'),(6,'2024-03-06','Jaringan Komputer','10:30:00','12:30:00','Herlina Sari, M.Sc','Nadia Prameswari','2025-11-23 12:40:02'),(7,'2024-03-07','Algoritma','09:00:00','11:00:00','Ahmad Fauzi, M.Kom','Gilbert Hartono','2025-11-23 12:40:02'),(8,'2024-03-08','Sistem Operasi','08:00:00','10:00:00','Prof. Lestari Putri','Sabrina Aulia','2025-11-23 12:40:02');
+/*!40000 ALTER TABLE `tbl_jadwal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_jadwal_hari_ini`
+--
+
+DROP TABLE IF EXISTS `tbl_jadwal_hari_ini`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_jadwal_hari_ini` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `gambar` varchar(255) DEFAULT NULL,
+  `nama_matkul` varchar(100) DEFAULT NULL,
+  `nama_dosen` varchar(100) DEFAULT NULL,
+  `jam_mulai` time DEFAULT NULL,
+  `jam_selesai` time DEFAULT NULL,
+  `status_kehadiran` enum('Hadir','Tidak Hadir','Belum Ada Info') DEFAULT 'Belum Ada Info',
+  `ruang` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_jadwal_hari_ini`
+--
+
+LOCK TABLES `tbl_jadwal_hari_ini` WRITE;
+/*!40000 ALTER TABLE `tbl_jadwal_hari_ini` DISABLE KEYS */;
+INSERT INTO `tbl_jadwal_hari_ini` VALUES (1,1,'../img/matkul1.jpg','Web','Budi Santoso','08:00:00','10:00:00','Hadir','PUT 345'),(2,1,'../img/matkul2.jpg','Word','Siti Aminah','10:30:00','12:30:00','Tidak Hadir','GSG 214'),(3,1,'../img/matkul3.jpg','C#','Rangga Saputra','13:00:00','15:00:00','Belum Ada Info','Perpus prancis');
+/*!40000 ALTER TABLE `tbl_jadwal_hari_ini` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_layanan`
+--
+
+DROP TABLE IF EXISTS `tbl_layanan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_layanan` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `jenis_permintaan` varchar(100) DEFAULT NULL,
+  `kategori` varchar(100) DEFAULT NULL,
+  `deskripsi` text,
+  `status` enum('Menunggu','Proses','Selesai') DEFAULT 'Menunggu',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_layanan`
+--
+
+LOCK TABLES `tbl_layanan` WRITE;
+/*!40000 ALTER TABLE `tbl_layanan` DISABLE KEYS */;
+INSERT INTO `tbl_layanan` VALUES (1,1,'Perbaikan Data','Administrasi','Saya lahir bulan juni, bukan september','Selesai','2025-11-24 13:00:27');
+/*!40000 ALTER TABLE `tbl_layanan` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_mahasiswa`
+--
+
+DROP TABLE IF EXISTS `tbl_mahasiswa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_mahasiswa` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nim` varchar(20) DEFAULT NULL,
+  `password` varchar(20) DEFAULT NULL,
+  `nama_mahasiswa` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_mahasiswa`
+--
+
+LOCK TABLES `tbl_mahasiswa` WRITE;
+/*!40000 ALTER TABLE `tbl_mahasiswa` DISABLE KEYS */;
+INSERT INTO `tbl_mahasiswa` VALUES (1,'2507412002','2TC16QAC','Ariva Zweena'),(2,'2507412003','12345678','Zweena Ariva');
+/*!40000 ALTER TABLE `tbl_mahasiswa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_nilai`
+--
+
+DROP TABLE IF EXISTS `tbl_nilai`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_nilai` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `nama_matkul` varchar(100) NOT NULL,
+  `nilai` decimal(5,2) NOT NULL,
+  `semester` varchar(10) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `tbl_nilai_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_mahasiswa` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_nilai`
+--
+
+LOCK TABLES `tbl_nilai` WRITE;
+/*!40000 ALTER TABLE `tbl_nilai` DISABLE KEYS */;
+INSERT INTO `tbl_nilai` VALUES (1,1,'Pancasila',27.43,'2025/1','2025-11-23 02:43:24'),(2,1,'Matematika diskrit',88.19,'2025/1','2025-11-23 02:43:24'),(3,1,'Bahasa Indonesia',53.76,'2025/1','2025-11-23 02:43:24'),(4,1,'English',9.62,'2025/1','2025-11-23 02:43:24');
+/*!40000 ALTER TABLE `tbl_nilai` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_pengumuman`
+--
+
+DROP TABLE IF EXISTS `tbl_pengumuman`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_pengumuman` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(150) NOT NULL,
+  `category` varchar(100) NOT NULL,
+  `subtitle` varchar(150) DEFAULT NULL,
+  `description` text NOT NULL,
+  `tag` varchar(50) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `icon` varchar(150) DEFAULT NULL,
+  `date_posted` datetime DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `tbl_pengumuman_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_mahasiswa` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_pengumuman`
+--
+
+LOCK TABLES `tbl_pengumuman` WRITE;
+/*!40000 ALTER TABLE `tbl_pengumuman` DISABLE KEYS */;
+INSERT INTO `tbl_pengumuman` VALUES (1,'Kuliah Pengganti Basis Data','Jurusan Teknik Informatika',NULL,'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat','Wajib','Gedung PUT - Ruang 301','bi-megaphone','2025-11-23 18:51:33',2),(2,'Pengumpulan Laporan PKL','Program Studi Teknik Informatika','Deadline Minggu Ini','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat','Wajib','Online Submission','bi-file-earmark-text','2025-11-23 18:52:55',2),(3,'Maintenance Sistem E-PNJ','UPT TIK PNJ','Pemberitahuan Sistem','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat','Info','Server Room PNJ','bi-exclamation-triangle','2025-11-23 18:52:55',1),(4,'Beasiswa Prestasi Tahap 2 Dibuka','Kemahasiswaan PNJ','Batas Pendaftaran 30 November','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat','Beasiswa','PNJ','bi-mortarboard','2025-11-23 18:52:55',1),(5,'Jadwal UAS Gasal Telah Rilis','Bagian Akademik','Semester Gasal 2025/2026','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat','Penting','Seluruh Jurusan','bi-calendar-event','2025-11-23 18:52:55',2),(6,'Kegiatan Seminar AI untuk Mahasiswa','Himpunan Mahasiswa Informatika','Pembicara Dari Industri','Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat','Event','Aula Gedung E PNJ','bi-cpu','2025-11-23 18:52:55',1);
+/*!40000 ALTER TABLE `tbl_pengumuman` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_statistik`
+--
+
+DROP TABLE IF EXISTS `tbl_statistik`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_statistik` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `total_matkul_hari_ini` int DEFAULT '0',
+  `tugas_deadline` int DEFAULT '0',
+  `persentase_absensi` int DEFAULT '0',
+  `semester` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `tbl_statistik_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_mahasiswa` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_statistik`
+--
+
+LOCK TABLES `tbl_statistik` WRITE;
+/*!40000 ALTER TABLE `tbl_statistik` DISABLE KEYS */;
+INSERT INTO `tbl_statistik` VALUES (1,1,3,1,4,'5');
+/*!40000 ALTER TABLE `tbl_statistik` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tbl_tugas`
+--
+
+DROP TABLE IF EXISTS `tbl_tugas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tbl_tugas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `judul` varchar(255) NOT NULL,
+  `status` enum('belum','selesai') NOT NULL DEFAULT 'belum',
+  `deadline` date DEFAULT NULL,
+  `tanggal_selesai` date DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `tbl_tugas_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_mahasiswa` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_tugas`
+--
+
+LOCK TABLES `tbl_tugas` WRITE;
+/*!40000 ALTER TABLE `tbl_tugas` DISABLE KEYS */;
+INSERT INTO `tbl_tugas` VALUES (1,1,'Tugas Pemrograman Web','belum','2025-12-10',NULL,'2025-11-23 13:01:23'),(2,1,'Tugas Basis Data','belum','2025-12-15',NULL,'2025-11-23 13:01:23'),(3,1,'Tugas Algoritma','selesai','2025-11-20','2025-11-18','2025-11-23 13:01:23'),(4,1,'Tugas Jaringan Komputer','selesai','2025-11-25','2025-11-24','2025-11-23 13:01:23'),(5,2,'Tugas Matematika Diskrit','belum','2025-12-05',NULL,'2025-11-23 13:01:23'),(6,2,'Tugas Sistem Operasi','selesai','2025-11-30','2025-11-29','2025-11-23 13:01:23');
+/*!40000 ALTER TABLE `tbl_tugas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'hackathon'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-11-24 21:01:36
