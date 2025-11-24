@@ -1,4 +1,3 @@
-````markdown
 # Hackathon Web Application
 
 ## 1. Cara Menjalankan
@@ -30,7 +29,6 @@
            die("Connection failed: " . mysqli_connect_error());
        }
    ?>
-````
 
 6. Buka browser dan akses aplikasi melalui:
 
