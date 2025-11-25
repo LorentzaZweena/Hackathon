@@ -72,8 +72,9 @@
       <a href="#"><i class="bi bi-headset me-2"></i> Layanan Mahasiswa</a>
 
       <hr>
-
-      <a href="#"><i class="bi bi-person-circle me-2"></i> Profil</a>
+      <a href="https://www.instagram.com/politekniknegerijakarta/"><i class="bi bi-instagram me-2"></i> Instagram</a>
+      <a href="https://pnj.ac.id/"><i class="bi bi-browser-chrome me-2"></i> Web</a>
+      <hr>
       <a href="logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>
     </div>
 
