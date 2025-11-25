@@ -15,7 +15,7 @@
      ```bash
      mysql -u root -p hackathon < hackathon.sql
      ```
-5. Sesuaikan konfigurasi database di file `connection.php`:
+5. Sesuaikan konfigurasi database di file `config.php`:
    ```php
    <?php
        $host = '127.0.0.1';
