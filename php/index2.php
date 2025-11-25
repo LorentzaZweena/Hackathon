@@ -102,7 +102,7 @@ while ($row = $result->fetch_assoc()) {
 
       <hr>
 
-      <a href="#"><i class="bi bi-person-circle me-2"></i> Profil</a>
+      <a href="#"><i class="bi bi-instagram me-2"></i> Instagram</a>
       <a href="logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>
     </div>
 
