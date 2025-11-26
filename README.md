@@ -15,7 +15,7 @@
      ```bash
      mysql -u root -p hackathon < hackathon.sql
      ```
-5. Sesuaikan konfigurasi database di file `config.php`:
+6. Sesuaikan konfigurasi database di file `config.php`:
    ```php
    <?php
        $host = '127.0.0.1';
@@ -29,8 +29,24 @@
            die("Connection failed: " . mysqli_connect_error());
        }
    ?>
+   ```
 
-6. Buka browser dan akses aplikasi melalui:
+   5. Jika XAMPP, Sesuaikan konfigurasi database seperti ini:
+   ```php
+   <?php
+       $host = 'localhost';
+       $user = 'root';
+       $pass = '';
+       $db   = 'hackathon';
+
+       $conn = mysqli_connect($host, $user, $pass, $db);
+
+       if (!$conn) {
+           die("Connection failed: " . mysqli_connect_error());
+       }
+   ?>
+
+7. Buka browser dan akses aplikasi melalui:
 
    ```
    http://localhost/<Hackathon>/
